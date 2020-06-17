@@ -1,0 +1,14 @@
+button{
+    text-decoration: none;
+    padding: 5px;
+    
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+.indElement {
+    margin : 5px;
+    width: 40%;
+}
