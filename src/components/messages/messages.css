@@ -1,3 +1,5 @@
 .messages{
     min-height: 51vh;
+    max-height: 51vh;
+    overflow:scroll;
 }

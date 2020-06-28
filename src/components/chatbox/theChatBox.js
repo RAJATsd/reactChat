@@ -18,11 +18,11 @@ class ChatBox extends React.Component{
         const {socket} = this.state;
         if((this.props.id in this.state.chats)==false)
         {
-            socket.emit('first message',({message:message,to:this.props.id,from:this.props.userId}));
+            socket.emit('first message',({message:message,to:this.props.id,from:this.props.userId,chatGroupNumber:3}));
             this.getHistory();
         }
         else{
-            socket.emit('send message',({convoId:this.state.chats[this.props.id][0].conversationId,message:message,to:this.props.id,from:this.props.userId}));
+            socket.emit('send message',({convoId:this.state.chats[this.props.id][0].conversationId,message:message,to:this.props.id,from:this.props.userId,chatGroupNumber:3}));
             const {chats} = this.state;
             chats[this.props.id].push({senderId:this.props.userId,receiverId:this.props.id,message:message});
             this.setState({chats:chats});
@@ -40,7 +40,7 @@ class ChatBox extends React.Component{
     }
 
     getHistory = () => {
-            axios.get('http://localhost:8080/contractor/ifConvo/'+this.props.id,{headers:{"Authorization":localStorage.getItem("token")}})
+            axios.get('http://localhost:8080/contractor/ifConvo/'+this.props.id+'/3',{headers:{"Authorization":localStorage.getItem("token")}})
             .then(result => {
                 console.log(result);
                 if(result.data.success){
