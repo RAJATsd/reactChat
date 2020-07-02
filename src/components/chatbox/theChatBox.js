@@ -15,7 +15,7 @@ class ChatBox extends React.Component{
     }
 
     handleSendMessage = (message)=>{
-        const {socket} = this.state;
+        const {socket} = this.props;
         if((this.props.id in this.state.chats)==false)
         {
             socket.emit('first message',({message:message,to:this.props.id,from:this.props.userId,chatGroupNumber:3}));
@@ -31,6 +31,7 @@ class ChatBox extends React.Component{
 
     componentDidMount(){
         this.initSocket();
+        this.getHistory();
     }
 
     componentDidUpdate(){
@@ -55,9 +56,7 @@ class ChatBox extends React.Component{
     }
 
     initSocket =()=>{
-        const socket = io('http://localhost:8080');
-        socket.emit('initalConn',{user:this.props.userId});
-        socket.on('new message',(args)=>{
+        this.props.socket.on('new message',(args)=>{
             console.log(args);
             if(this.props.id in this.state.chats==false){
                 this.getHistory();
@@ -68,8 +67,13 @@ class ChatBox extends React.Component{
                 chats[args.from].push({senderId:args.from,receiverId:this.props.userId,message:args.message});
                 this.setState({chats:chats});
             }
+            if(this.props.id===args.from){
+                this.props.msgStatus(args.from,3);
+            }
+            else{
+                this.props.incUnread(args.from);
+            }
         });
-        this.setState({socket:socket});
     }
 
     render(){
