@@ -104,7 +104,14 @@ class Info extends React.Component{
         if(dataEleme){
             for(let oneItem of dataEleme.entries())
             {
-                listItems.push(<ListElement info={oneItem} key={oneItem[1].id} unreadCount={this.state.unreadMsgList[oneItem[1].id]} clickEvent = {this.onChangeDiv}/>)
+                listItems.push(
+                    <ListElement 
+                        info={oneItem} 
+                        key={oneItem[1].id} 
+                        unreadCount={this.state.unreadMsgList[oneItem[1].id]} 
+                        clickEvent = {this.onChangeDiv}
+                    />
+                )
             }    
         }
         
@@ -112,7 +119,17 @@ class Info extends React.Component{
             
             <div className="listBorder">
                 {listItems.length>0 && <div className="oyeDiv">{listItems}</div>}
-                {this.state.clickedDivId && <TheChatBox id={this.state.clickedDivId} name={this.state.clickedDivName} userId={this.state.currentUser} socket={this.state.socket} msgStatus={this.changeUnreadToRead} incUnread = {this.increaseUnread} />}
+                {this.state.clickedDivId 
+                 && 
+                 <TheChatBox 
+                    id={this.state.clickedDivId} 
+                    name={this.state.clickedDivName} 
+                    userId={this.state.currentUser} 
+                    socket={this.state.socket} 
+                    msgStatus={this.changeUnreadToRead} 
+                    incUnread = {this.increaseUnread} 
+                 />
+                }
             </div>
         );
     }

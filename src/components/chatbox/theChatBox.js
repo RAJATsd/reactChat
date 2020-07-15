@@ -18,11 +18,20 @@ class ChatBox extends React.Component{
         const {socket} = this.props;
         if((this.props.id in this.state.chats)==false)
         {
-            socket.emit('first message',({message:message,to:this.props.id,from:this.props.userId,chatGroupNumber:3}));
+            socket.emit('first message',({
+                message:message,
+                to:this.props.id,
+                from:this.props.userId,
+                chatGroupNumber:3
+            }));
             this.getHistory();
         }
         else{
-            socket.emit('send message',({convoId:this.state.chats[this.props.id][0].conversationId,message:message,to:this.props.id,from:this.props.userId,chatGroupNumber:3}));
+            socket.emit('send message',({
+                convoId:this.state.chats[this.props.id][0].conversationId,
+                message:message,to:this.props.id,
+                from:this.props.userId,chatGroupNumber:3
+            }));
             const {chats} = this.state;
             chats[this.props.id].push({senderId:this.props.userId,receiverId:this.props.id,message:message});
             this.setState({chats:chats});
@@ -80,8 +89,15 @@ class ChatBox extends React.Component{
         return(
             <div className="chatBox">
                 <h3>{this.props.name} - {this.props.id}</h3>
-                {this.state.chats[this.props.id] && <Messages messages ={this.state.chats[this.props.id]} user={this.props.userId} />}
-                <InputElement sendMessage={this.handleSendMessage}/>
+                {this.state.chats[this.props.id] 
+                && 
+                <Messages 
+                    messages ={this.state.chats[this.props.id]} 
+                    user={this.props.userId} 
+                />}
+                <InputElement 
+                    sendMessage={this.handleSendMessage}
+                />
             </div>
         )
     }
