@@ -5,6 +5,7 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
+import './infoAdmin.css';
 
 class InfoAdmin extends React.Component{
     constructor(props){
@@ -62,6 +63,17 @@ class InfoAdmin extends React.Component{
         this.setState({open:open});
     }
 
+    clickedSocketEvent = (id,user) => {
+        console.log(id);
+        axios.get('http://localhost:8080/contractor/clickEventIo/'+id+'/'+user)
+        .then(response=>{
+            if(response.data.success){
+                console.log('clicked and notified');
+            }
+        })
+        .catch(e=>console.log(e));
+    }
+
     initSocket =()=>{
         const socket = io('http://localhost:8080');
         socket.emit('AdminConnect');
@@ -80,18 +92,6 @@ class InfoAdmin extends React.Component{
             notifications.push(args.notification);
             this.setState({notifications:notifications});
         });
-        // socket.on('new message',(args)=>{
-        //     console.log(args);
-        //     if(this.props.id in this.state.chats==false){
-        //         this.getHistory();
-        //     }
-        //     else{
-        //         const {chats} = this.state;
-        //         console.log(chats);
-        //         chats[args.from].push({senderId:args.from,receiverId:this.props.userId,message:args.message});
-        //         this.setState({chats:chats});
-        //     }
-        // });
         this.setState({socket:socket});
     }
 
@@ -99,7 +99,7 @@ class InfoAdmin extends React.Component{
         return(
             <Container className="align-items-center">
                 <Button variant="secondary" onClick={this.showOrHide}>Notifications-{this.state.unread} unread</Button>
-                {this.state.open && this.state.notifications.map((nofify,i)=><Alert variant="dark" key={i}>{nofify.notificationText}</Alert>)}
+                {this.state.open && this.state.notifications.map((nofify,i)=><Alert className="clickableAlerts" key={nofify.referenceId} onClick={()=>this.clickedSocketEvent(nofify.referenceId,nofify.userId)} variant="dark">{nofify.notificationText}</Alert>)}
             </Container>
         )
     }

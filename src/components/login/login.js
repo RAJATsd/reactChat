@@ -48,12 +48,12 @@ class Login extends React.Component {
       email : this.state.email,
       password: this.state.password
     };
-    console.log(user);
     axios.post('http://localhost:8080/contractor/authenticate',user)
     .then(res =>{
-         console.log(res.data.contractorToken);
+         console.log(res.data);
          if(res.data.success){
          localStorage.setItem('token',res.data.contractorToken);
+         localStorage.setItem('userId',res.data.contractorDetails.id);
          this.props.history.push('/options');
         }
     })
