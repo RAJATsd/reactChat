@@ -22,7 +22,9 @@ class ChatBox extends React.Component{
                 message:message,
                 to:this.props.id,
                 from:this.props.userId,
-                chatGroupNumber:3
+                chatGroupNumber:3,
+                orderId:'abcd1234efgh5678ijkl'
+                //orderId:'abcd1234efgh5678ijkl91011'
             }));
             this.getHistory();
         }
@@ -50,7 +52,7 @@ class ChatBox extends React.Component{
     }
 
     getHistory = () => {
-            axios.get('http://localhost:8080/contractor/ifConvo/'+this.props.id+'/3',{headers:{"Authorization":localStorage.getItem("token")}})
+            axios.get('http://localhost:8080/contractor/ifConvo/'+this.props.id+'/3'+'/'+'abcd1234efgh5678ijkl',{headers:{"Authorization":localStorage.getItem("token")}})
             .then(result => {
                 console.log(result);
                 if(result.data.success){
